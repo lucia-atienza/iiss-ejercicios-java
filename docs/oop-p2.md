@@ -216,8 +216,53 @@ En la siguiente lista se incluyen 10 posibles problemas que pueden encontrarse e
 - Los cambios dentro de una clase tienden a afectar a otras clases
 
 a) ¿Existe algún tipo de problema en la implementación anterior de los que se incluye en la lista anterior? ¿Es necesario aplicar refactoring en este caso? En el caso de que existan problemas, indique cuáles son y qué tipos de problemas piensa que generarían en el futuro si no se aplica el refactoring ahora.
+- Es cierto que `getUsers()` nos devuelve los usuarios, pero el nombre es poco específico.
+- Siguiendo con la misma función, nos encontramos ante el caso de función con demasiada responsabilidad, ya que incluye tanto la ordenación de los usuarios como la capitalización de sus nombres.
+- Además, incluye comentarios para explicar las dos líneas que tienen tantas llamadas a métodos o funciones, no dejando claro qué sucede en las mismas (y por eso recurre a los comentarios).
+
 
 b) En el caso de que la implementación necesite la aplicación de refactoring, realice los cambios oportunos e indique las mejoras que aporta su implementación respecto a la original.
+Voy a suponer que el código verdaderamente necesita que los usuarios estén ordenados y capitalizados:
+
+#### `GroupOfUsers.java`
+
+```java
+public class GroupOfUsers {
+ 
+    private static Map<String, Integer> usersWithPoints =
+      new HashMap<String, Integer>() {{
+        put("User1", 800);
+        put("User2", 550);
+        put("User3", 20);
+        put("User4", 300);
+    }};
+
+    public List<String> getUsers() {
+        List<String> sortedUsers = getSortedUsers();
+        List<String> capitalizedUsers = getCapitalizeUserNames(sortedUsers);
+        return capitalizedUsers;
+    }
+
+    private List<String> getSortedUsers() {
+        List<String> sortedUsers = new ArrayList<String>();
+
+        usersWithPoints.entrySet()
+        .stream()
+        .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+        .forEachOrdered(x -> sortedUsers.add(x.getKey()));
+
+        return sortedUsers;
+    }
+
+    private List<String> getCapitalizeUserNames(List<String> users) {
+        List<String> capitalizedUsers = new ArrayList<String>();
+        users.forEach(x -> capitalizedUsers.add(x.toUpperCase()));
+        return capitalizedUsers;
+    }
+
+}
+```
+También podría ser otra opción que se devuelvan solamente ordenados y exista una función aparte por si se quisiera capitalizar, o que se devuelvan tal y como está y añadir las dos funcionalidades opcionales... depende de la necesidad. Pero de esta forma tendremos una única responsabilidad por método.
 
 ### Ejercicio 2
 
@@ -309,6 +354,8 @@ public class GroupOfUsers {
 Responda a las siguientes cuestiones, teniendo en cuenta la lista de los 10 posibles problemas del ejercicio anterior
 
 a) El software del ejercicio anterior ha evolucionado añadiendo nueva funcionalidad en su implementación. ¿Existe algún tipo de problema en esta versión de la implementación de los que se incluyen en la lista? ¿Es necesario aplicar refactoring en este caso? En el caso de que existan problemas, indique cuáles son y qué tipos de problemas piensa que generarían en el futuro si no se aplica el refactoring ahora.
+
+No solo tenemos los problemas que teníamos en el ejercicio anterior sino que ahora, además, tenemos muchas líneas de código duplicado que llevan a cabo la misma función sobre distintos objetos. Además, se pueden observar muchas variables.
 
 b) En el caso de que la implementación necesite la aplicación de refactoring, realice los cambios oportunos e indique las mejoras que aporta su implementación respecto a la original.
 
