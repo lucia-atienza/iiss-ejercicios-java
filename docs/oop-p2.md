@@ -359,6 +359,27 @@ No solo tenemos los problemas que teníamos en el ejercicio anterior sino que ah
 
 b) En el caso de que la implementación necesite la aplicación de refactoring, realice los cambios oportunos e indique las mejoras que aporta su implementación respecto a la original.
 
+Al igual que en el ejercicio anterior, separamos la lógica de ordenación y capitalización de usuarios en métodos separados. Además, si cambiamos el tipo de retorno de `getUsers()` a `List<List<String>>`, lo hacemos más genérico y evitamos el uso del casting. Mantenemos las funciones que implementamos en el ejercicio anterior y cambiamos además lo siguiente:
+```java
+public List<List<String>> getUsers() {
+    List<String> users1 = getSortedUsers(usersWithPoints_Group1);
+    List<String> users2 = getSortedUsers(usersWithPoints_Group2);
+    List<String> users3 = getSortedUsers(usersWithPoints_Group3);
+    
+    List<String> usersCapitalized1 = getCapitalizedUsers(users1);
+    List<String> usersCapitalized2 = getCapitalizedUsers(users2);
+    List<String> usersCapitalized3 = getCapitalizedUsers(users3);
+    
+    List<List<String>> users = new ArrayList<>();
+    users.add(usersCapitalized1);
+    users.add(usersCapitalized2);
+    users.add(usersCapitalized3);
+    
+    return users;
+}
+
+```
+
 ## Referencias
 
 [Code Complete]: https://www.amazon.es/Code-Complete-Practical-Costruction-Professional/dp/0735619670
