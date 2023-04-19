@@ -105,7 +105,7 @@ Sí, se realiza inyección de dependencias. La clase inyectora es la clase `Main
     - En la línea 10 de `Main.java`, se crea un objeto `DBAccessB` de la clase `DBAccessB`.
     - En la línea 11 de `Main.java`, se crea un objeto `DBClient` y se le pasa el objeto `DBAccessB` como parámetro al constructor.
     - En la línea 17 de `Main.java`, se crea un objeto `DBAccessA` de la clase `DBAccessA`.
-    - En la línea 18 del mismo fichero, se llama al método `setDBAccess` de la instancia de `DBClient` creada anteriormente, pasándole como parámetro el objeto `DBAccessA.
+    - En la línea 18 del mismo fichero, se llama al método `setDBAccess` de la instancia de `DBClient` creada anteriormente, pasándole como parámetro el objeto `DBAccessA`.
 
 
 
