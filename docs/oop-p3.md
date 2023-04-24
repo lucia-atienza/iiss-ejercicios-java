@@ -249,7 +249,6 @@ b) Mostrar el mensaje "The database is empty" después de la ejecución de la op
 
 Quedaría:
 
-#### `LoginAspect.java`
 
 ```java
 @After("execution(public void Bank.showUsers())")
@@ -259,6 +258,8 @@ public void after(JoinPoint joinPoint){
 ```
 
 3. Finalmente, sustituir el fichero `LoginAspect.java` por el fichero `LoginAspect.aj` incluyendo la misma funcionalidad pero utilizando la sintaxis de AspectJ.
+
+#### `LoginAspect.aj`
 
 ```
 public aspect LoginAspect {
