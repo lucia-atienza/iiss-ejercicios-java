@@ -235,10 +235,42 @@ Los pasos a completar son:
 
 a) Mostrar el mensaje "The login is required" antes de la ejecución de las operaciones `makeTransaction` y `takeMoneyOut`.
 
+Quedaría:
+
+
+```java
+@Before("execution(public void Bank.makeTransaction()) || execution(public void Bank.takeMoneyOut())")
+public void before(JoinPoint joinPoint){
+    System.out.println("The login is required");
+}
+```
+
 b) Mostrar el mensaje "The database is empty" después de la ejecución de la operación `showUsers`.
+
+Quedaría:
+
+#### `LoginAspect.java`
+
+```java
+@After("execution(public void Bank.showUsers())")
+public void after(JoinPoint joinPoint){
+    System.out.println("The database is empty");
+}
+```
 
 3. Finalmente, sustituir el fichero `LoginAspect.java` por el fichero `LoginAspect.aj` incluyendo la misma funcionalidad pero utilizando la sintaxis de AspectJ.
 
+```
+public aspect LoginAspect {
+    before() : (execution(public void Bank.makeTransaction()) || execution(public void Bank.takeMoneyOut())) {
+        System.out.println("The login is required");
+    }
+    
+    after() returning : execution(public void Bank.showUsers()) {
+        System.out.println("The database is empty");
+    }
+}
+```
 
 ## Referencias
 
