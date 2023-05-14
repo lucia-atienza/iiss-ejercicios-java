@@ -236,14 +236,149 @@ a) En la clase `Product.java`:
 
 Además, añadir un mensaje de error descriptivo en cada una de las aserciones que se hayan implementado.
 
+#### `Product.java`
+
+```java
+public class Product {
+	
+	private int code;
+	private String name;
+	private String category;
+	private double weight;
+	private double height;
+	
+	public Product(int code, String name, String category, double weight, double height) {
+		
+		assert code >= 0 : "Code must be a non-negative number.";
+		this.code = code;
+		
+		assert name != null && !name.isEmpty() : "Name cannot be empty.";
+		this.name = name;
+		
+		assert category != null && !category.isEmpty() : "Category cannot be empty.";
+		this.category = category;
+		
+		assert weight >= 0 : "Weight must be a non-negative number.";
+		this.weight = weight;
+		
+		assert height >= 0 : "Height must be a non-negative number.";
+		this.height = height;
+	}
+	
+	public int getCode() {
+		return code;
+	}
+	
+	public void setName(String name) {
+		assert name != null && !name.isEmpty() : "Name cannot be empty.";
+		this.name = name;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setCategory(String category) {
+		assert category != null && !category.isEmpty() : "Category cannot be empty.";
+		this.category = category;
+	}
+	
+	public String getCategory() {
+		return this.category;
+	}
+	
+	public void setWeight(double weight) {
+		assert weight >= 0 : "Weight must be a non-negative number.";
+		this.weight = weight;
+	}
+	
+	public double getWeight() {
+		return this.weight;
+	}
+	
+	public void setHeight(double height) {
+		assert height >= 0 : "Height must be a non-negative number.";
+		this.height = height;
+	}
+	
+	public double getHeight() {
+		return this.height;
+	}
+}
+
+```
+
 b) En la clase `ShoppingCart.java`:
 
 - No se puede añadir un producto con un número de unidades negativo o nulo.
 - No se puede eliminar un producto que no existe en el carrito.
 
+
+### `ShoppingCart.java`
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class ShoppingCart {
+	
+	Map<Product, Integer> shoppingCart;
+	
+	public ShoppingCart() {
+		shoppingCart = new HashMap<Product, Integer>();
+	}
+	
+	public void addProduct(Product product, int number) {
+		assert number > 0 : "The number of products must be greater than zero.";
+		
+		if(shoppingCart.keySet().stream().filter(element -> element.getCode() == product.getCode()).count() == 0) {
+			shoppingCart.put(product, number);
+		}
+	}
+	
+	public Product removeProduct(Product product) {
+		assert product != null : "The product to be removed cannot be null.";
+		
+		if(shoppingCart.containsKey(product)) {
+			shoppingCart.remove(product);
+			return product;
+		}  else {
+			return null;
+		}
+	}
+	
+	public void printShoppingCartContent() {
+		System.out.println("The shopping cart content is: ");
+		
+		for(Product product: shoppingCart.keySet()) {
+			System.out.println(product.getCode() + " - " + product.getName() + " : " + shoppingCart.get(product));
+		}
+		
+	}
+}
+
+```
+
 ### Ejercicio 2
 
 Dado el código del primer ejercicio, ¿existe algún uso indebido del valor `null`?. En caso afirmativo, reemplazar su uso por el de la clase `Optional` en los casos en los que sea necesario.
+
+
+En el código del ejercicio 1, se está haciendo un uso indebido del valor `null` en la creación de los objetos `Product`. En particular, se están permitiendo valores `null` para los atributos `name` y `category`. Para solucionar esto, se podría utilizar la clase `Optional` de la siguiente manera:
+
+```java
+
+public class Product {
+	
+	private int code;
+	private Optional<String> name;
+	private Optional<String> category;
+	private double weight;
+	private double height;
+	
+	public Product(int code, String name, String category, double weight
+```
+
 
 ## Referencias
 
